@@ -12,7 +12,7 @@ from scipy import ndimage as ndi
 from skimage.feature import peak_local_max
 from skimage import exposure
 
-raster = 'PATH/TO/YOUR/CHM/DATA'
+raster = 'test_data.tif'
 img = gdal.Open(raster,gdal.GA_ReadOnly)
 img = img.ReadAsArray()
 image = np.array(img, dtype=float)
