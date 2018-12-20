@@ -11,24 +11,16 @@ from osgeo import gdal
 from scipy import ndimage as ndi
 from skimage.feature import peak_local_max
 from skimage import exposure
-#import os
-#from skimage import img_as_float
 
-raster = 'C:\\Map\\Misc\\T2E_volume\\CHM_process\\acacia_CHM.tif'
+raster = 'PATH/TO/YOUR/CHM/DATA'
 img = gdal.Open(raster,gdal.GA_ReadOnly)
 img = img.ReadAsArray()
 image = np.array(img, dtype=float)
 p2, p98 = np.percentile(img, (2, 98))
 img_rescale = exposure.rescale_intensity(image, in_range=(p2, p98))
 
-#img = io.imread('C:\\Map\\Misc\\T2E_volume\\CHM_process\\acacia_CHM.tif')
-#image = img_as_float(img)
+image_max = ndi.maximum_filter(image, size=3, mode='constant')
 
-# image_max is the dilation of im with a 20*20 structuring element
-# It is used within peak_local_max function
-image_max = ndi.maximum_filter(image, size=20, mode='constant')
-
-# Comparison between image_max and im to find the coordinates of local maxima
 coordinates = peak_local_max(image, min_distance=2)
 X=coordinates[:, 1]
 y=coordinates[:, 0]
